@@ -57,7 +57,6 @@ class student
 			fin.read((char *) &su, sizeof(su));
 			if(id_no == su.id)
 			{
-				cout << "\nWhen id number macthes" << endl;
 				cout << "Id number: " << su.id << endl;
 				cout << "Name: " << su.name << endl;
 				cout << "Branch: " << su.branch << endl;
