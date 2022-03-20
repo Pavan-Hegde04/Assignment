@@ -13,17 +13,10 @@ class student
 	{
 		cout << "Enter id, name, branch, location" << endl;
 		cin >> id;
-//		cout << "id: " << id << endl;
 		char t1 = getchar();
-
-		cin.getline(name, 20);
-//		cout << "name: " << name << endl; 
-
+		cin.getline(name, 20); 
 		cin.getline(branch,20);
-//		cout << "branch: " << branch << endl;
-
 		cin.getline(location, 100);
-//		cout << "location: " << location << endl;
 	}
 
 	void getStudentDetails()
@@ -56,16 +49,12 @@ class student
 			fin.read((char *) &su, sizeof(su));
 			count++;
 		}
-//		cout << "count: " << count << endl;
-
 		fin.close();
 
 		fin.open("student_data.txt", ios::in|ios::binary);
-
 		for(int i=0; i<count-1; i++)
 		{
 			fin.read((char *) &su, sizeof(su));
-
 			if(id_no == su.id)
 			{
 				cout << "\nWhen id number macthes" << endl;
@@ -85,18 +74,15 @@ class student
 		int count=0;
 
 		f.open("student_data.txt", ios::in|ios::binary);
-
 		while(!f.eof())
 		{
 			f.read((char *) &su, sizeof(su));
 			count++;
 		}
-//		cout << "count: " << count << endl;
-
 		f.close();
 
 		f.open("student_data.txt", ios::in|ios::binary);
-
+		
 		// using counter printing student details
 		for(int i=0; i<count-1; i++)
 		{
