@@ -1,5 +1,6 @@
 #include<iostream>
 #include<fstream>
+#include<exception>
 
 using namespace std;
 
@@ -14,7 +15,7 @@ class student
 		cout << "Enter id, name, branch, location" << endl;
 		cin >> id;
 		char t1 = getchar();
-		cin.getline(name, 20); 
+		cin.getline(name, 20);
 		cin.getline(branch,20);
 		cin.getline(location, 100);
 	}
@@ -24,11 +25,21 @@ class student
 		fstream fin;
 		student su;
 
-		fin.open("student_data.txt", ios::app|ios::binary);
+		try
+		{
+			fin.open("student_data_exc.txt", ios::app|ios::binary);
+			if(!fin)
+			{
+				throw 'e';
+			}
+		}
+		catch(char c)
+		{
+			cout << "Exception: File is not created" << endl;
+		}
+	
 		su.getdata();
-
 		fin.write((char *) &su, sizeof(su));
-
 		fin.close();
 	}
 
@@ -41,26 +52,59 @@ class student
 
 		cout << "Enter the student id" << endl;
 		cin >> id_no;
-
-		fin.open("student_data.txt", ios::in|ios::binary);
+		try
+		{
+			fin.open("student_data_exc.txt", ios::in|ios::binary);
+			if(!fin)
+			{
+				throw 'e';
+			}
+		}
+		catch(char c)
+		{
+			cout << "Exception: File is not created" << endl;
+		}
 
 		while(!fin.eof())
 		{
 			fin.read((char *) &su, sizeof(su));
 			count++;
 		}
+
 		fin.close();
 
-		fin.open("student_data.txt", ios::in|ios::binary);
+		fin.open("student_data_exc.txt", ios::in|ios::binary);
+
 		for(int i=0; i<count-1; i++)
 		{
 			fin.read((char *) &su, sizeof(su));
+
 			if(id_no == su.id)
 			{
 				cout << "Id number: " << su.id << endl;
 				cout << "Name: " << su.name << endl;
 				cout << "Branch: " << su.branch << endl;
 				cout << "Location: " << su.location << endl;
+
+				break;
+			}
+			else
+			{
+				try
+				{
+					if(i == count-2)
+					{
+						throw id_no;
+					}
+					else
+					{
+						continue;
+					}
+				}
+				catch(int n)
+				{
+					cout << "EXCEPTION: id not found" << endl;
+				}
 			}
 		}
 	}
@@ -72,7 +116,8 @@ class student
 		student su;
 		int count=0;
 
-		f.open("student_data.txt", ios::in|ios::binary);
+		f.open("student_data_exc.txt", ios::in|ios::binary);
+
 		while(!f.eof())
 		{
 			f.read((char *) &su, sizeof(su));
@@ -80,8 +125,7 @@ class student
 		}
 		f.close();
 
-		f.open("student_data.txt", ios::in|ios::binary);
-		
+		f.open("student_data_exc.txt", ios::in|ios::binary);
 		// using counter printing student details
 		for(int i=0; i<count-1; i++)
 		{
@@ -105,9 +149,10 @@ int main()
 	while(choice != 0)
 	{
 		// menu driven program to enter student details and find student by their id
-		cout << "Enter your choice" << endl << "1: enter student detail" << endl << "2: find student" << endl << "3: Display Student Details " << endl;
+		cout << "\nEnter your choice" << endl << "1: enter student detail" << endl << "2: find student" << endl << "3: Display Student Details " << endl;
 		cout <<"4: Exit" << endl;
 		cin >> choice;
+		cout << endl;
 
 		switch(choice)
 		{
